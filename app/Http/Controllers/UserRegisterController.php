@@ -33,20 +33,17 @@ class UserRegisterController extends Controller
         DB::statement("
                 INSERT INTO users (name, email, password, created_at, updated_at)
                 VALUES (?, ?, ?, ?, ?)
-                ON CONFLICT (email) DO UPDATE
-                SET name = ?, email = ?, password = ?, updated_at = ?
+                ON DUPLICATE KEY UPDATE
+                name = VALUES(name),
+                email = VALUES(email),
+                password = VALUES(password),
+                updated_at = VALUES(updated_at);
             ", [
             // payload if request is register new user
             $request->name,
             $request->email,
             Hash::make($request->password),
             Carbon::now(),
-            Carbon::now(),
-
-            // payload if request is update un verified user
-            $request->name,
-            $request->email,
-            Hash::make($request->password),
             Carbon::now(),
         ]);
 
