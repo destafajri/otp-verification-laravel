@@ -12,9 +12,6 @@ class UserRegistrationTest extends TestCase
 {
     public function testUserSuccessRegister(): void
     {
-        //setup
-        DB::delete("DELETE FROM users where email = ?", ["test@gmail.com"]);
-
         //action
         $response = $this->post('/api/register', [
             "name" => "desta",
@@ -49,7 +46,6 @@ class UserRegistrationTest extends TestCase
     public function testUserFailedRegisterUserAlreadyExist(): void
     {
         //setup
-        DB::delete("DELETE FROM users where email = ?", ["test@gmail.com"]);
         DB::insert("INSERT INTO users (name, email, password, email_verified_at)
                     VALUES(?, ?, ?, ?)", [
                         "test",
@@ -75,7 +71,6 @@ class UserRegistrationTest extends TestCase
     public function testUserFailedRegisterWaitingForTwoDays(): void
     {
         //setup
-        DB::delete("DELETE FROM users where email = ?", ["test@gmail.com"]);
         DB::insert("INSERT INTO users (name, email, password, email_verified_at, deleted_at)
                     VALUES(?, ?, ?, ?, ?)", [
                         "test",
@@ -102,7 +97,6 @@ class UserRegistrationTest extends TestCase
     public function testUserSuccessRegisterAfterWaitingForThreeDays(): void
     {
         //setup
-        DB::delete("DELETE FROM users where email = ?", ["test@gmail.com"]);
         DB::insert("INSERT INTO users (name, email, password, email_verified_at, deleted_at)
                     VALUES(?, ?, ?, ?, ?)", [
                         "test",
