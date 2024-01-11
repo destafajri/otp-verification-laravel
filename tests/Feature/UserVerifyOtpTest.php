@@ -20,13 +20,11 @@ class UserVerifyOtpTest extends TestCase
         $otp = "123456";
         $key = "OTP-email_" . $email;
         $expTime = 300;
-        DB::insert("INSERT INTO users (name, email, password, email_verified_at, deleted_at)
-        VALUES(?, ?, ?, ?, ?)", [
+        DB::insert("INSERT INTO users (name, email, password)
+        VALUES(?, ?, ?)", [
             "test",
             $email,
-            "password",
-            Carbon::now(),
-            Carbon::now()->subDay(1)
+            "password"
         ]);
 
         Redis::setex($key, $expTime, $otp);
@@ -52,6 +50,9 @@ class UserVerifyOtpTest extends TestCase
             Auth::user()->email,
             $email
         );
+        self::assertNotNull(
+            Auth::user()->email_verified_at
+        );
     }
 
     public function testUserInputInvalidOtp(): void
@@ -61,13 +62,11 @@ class UserVerifyOtpTest extends TestCase
         $otp = "123456";
         $key = "OTP-email_" . $email;
         $expTime = 300;
-        DB::insert("INSERT INTO users (name, email, password, email_verified_at, deleted_at)
-        VALUES(?, ?, ?, ?, ?)", [
+        DB::insert("INSERT INTO users (name, email, password)
+        VALUES(?, ?, ?)", [
             "test",
             $email,
-            "password",
-            Carbon::now(),
-            Carbon::now()->subDay(1)
+            "password"
         ]);
 
         Redis::setex($key, $expTime, $otp);
@@ -98,13 +97,11 @@ class UserVerifyOtpTest extends TestCase
         $otp = "123456";
         $key = "OTP-email_" . $email;
         $expTime = 1;
-        DB::insert("INSERT INTO users (name, email, password, email_verified_at, deleted_at)
-        VALUES(?, ?, ?, ?, ?)", [
+        DB::insert("INSERT INTO users (name, email, password)
+        VALUES(?, ?, ?)", [
             "test",
             $email,
-            "password",
-            Carbon::now(),
-            Carbon::now()->subDay(1)
+            "password"
         ]);
 
         Redis::setex($key, $expTime, $otp);
