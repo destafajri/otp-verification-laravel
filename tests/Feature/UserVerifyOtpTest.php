@@ -48,6 +48,10 @@ class UserVerifyOtpTest extends TestCase
         self::assertNotNull(
             Auth::user()
         );
+        self::assertSame(
+            Auth::user()->email,
+            $email
+        );
     }
 
     public function testUserInputInvalidOtp(): void
