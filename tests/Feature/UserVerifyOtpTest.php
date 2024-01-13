@@ -20,11 +20,13 @@ class UserVerifyOtpTest extends TestCase
         $otp = "123456";
         $key = "OTP-email_" . $email;
         $expTime = 300;
-        DB::insert("INSERT INTO users (name, email, password)
-                VALUES(?, ?, ?)", [
+        DB::insert("INSERT INTO users (name, email, password, created_at, updated_at)
+                VALUES(?, ?, ?, ?, ?)", [
             "test",
             $email,
-            "password"
+            "password",
+            Carbon::now(),
+            Carbon::now()
         ]);
 
         Redis::setex($key, $expTime, $otp);
@@ -62,11 +64,13 @@ class UserVerifyOtpTest extends TestCase
         $otp = "123456";
         $key = "OTP-email_" . $email;
         $expTime = 300;
-        DB::insert("INSERT INTO users (name, email, password)
-        VALUES(?, ?, ?)", [
+        DB::insert("INSERT INTO users (name, email, password, created_at, updated_at)
+                VALUES(?, ?, ?, ?, ?)", [
             "test",
             $email,
-            "password"
+            "password",
+            Carbon::now(),
+            Carbon::now()
         ]);
 
         Redis::setex($key, $expTime, $otp);
@@ -99,11 +103,13 @@ class UserVerifyOtpTest extends TestCase
         $otp = "123456";
         $key = "OTP-email_" . $email;
         $expTime = 1;
-        DB::insert("INSERT INTO users (name, email, password)
-        VALUES(?, ?, ?)", [
+        DB::insert("INSERT INTO users (name, email, password, created_at, updated_at)
+                VALUES(?, ?, ?, ?, ?)", [
             "test",
             $email,
-            "password"
+            "password",
+            Carbon::now(),
+            Carbon::now()
         ]);
 
         Redis::setex($key, $expTime, $otp);
