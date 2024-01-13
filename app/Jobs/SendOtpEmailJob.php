@@ -2,6 +2,7 @@
 namespace App\Jobs;
 
 use App\Mail\OtpMail;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -16,7 +17,7 @@ class SendOtpEmailJob implements ShouldQueue
 
     protected $user;
 
-    public function __construct($user)
+    public function __construct(User $user)
     {
         $this->user = $user;
     }

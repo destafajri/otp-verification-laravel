@@ -48,11 +48,11 @@ class UserRegistrationTest extends TestCase
         //setup
         DB::insert("INSERT INTO users (name, email, password, email_verified_at)
                     VALUES(?, ?, ?, ?)", [
-                        "test",
-                        "test@gmail.com",
-                        "password",
-                        Carbon::now()
-                    ]);
+            "test",
+            "test@gmail.com",
+            "password",
+            Carbon::now()
+        ]);
 
         //action
         $response = $this->post('/api/register', [
@@ -63,22 +63,27 @@ class UserRegistrationTest extends TestCase
 
         //expected
         $response->assertStatus(400)
-        ->assertJson([
-            "error" => "user already exist"
-        ]);
+            ->assertJson([
+                "errors" => [
+                    "user already exist"
+                ]
+            ]);
     }
 
     public function testUserFailedRegisterWaitingForTwoDays(): void
     {
         //setup
-        DB::insert("INSERT INTO users (name, email, password, email_verified_at, deleted_at)
-                    VALUES(?, ?, ?, ?, ?)", [
-                        "test",
-                        "test@gmail.com",
-                        "password",
-                        Carbon::now(),
-                        Carbon::now()->subDay(2)
-                    ]);
+        DB::insert("INSERT INTO users (name, email, password, email_verified_at, created_at, updated_at, deleted_at)
+                VALUES(?, ?, ?, ?, ?, ?, ?)", [
+            "test",
+            "test@gmail.com",
+            "password",
+            Carbon::now(),
+            Carbon::now(),
+            Carbon::now(),
+            Carbon::now()->subDay(2)
+        ]);
+
 
         //action
         $response = $this->post('/api/register', [
@@ -89,22 +94,26 @@ class UserRegistrationTest extends TestCase
 
         //expected
         $response->assertStatus(400)
-        ->assertJson([
-            "error" => "please wait 2 days after request delete"
-        ]);
+            ->assertJson([
+                "errors" => [
+                    "please wait 2 days after request delete"
+                ]
+            ]);
     }
 
     public function testUserSuccessRegisterAfterWaitingForThreeDays(): void
     {
         //setup
-        DB::insert("INSERT INTO users (name, email, password, email_verified_at, deleted_at)
-                    VALUES(?, ?, ?, ?, ?)", [
-                        "test",
-                        "test@gmail.com",
-                        "password",
-                        Carbon::now(),
-                        Carbon::now()->subDay(3)
-                    ]);
+        DB::insert("INSERT INTO users (name, email, password, email_verified_at, created_at, updated_at, deleted_at)
+                    VALUES(?, ?, ?, ?, ?, ?, ?)", [
+            "test",
+            "test@gmail.com",
+            "password",
+            Carbon::now(),
+            Carbon::now(),
+            Carbon::now(),
+            Carbon::now()->subDay(3)
+        ]);
 
         //action
         $response = $this->post('/api/register', [

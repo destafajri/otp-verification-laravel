@@ -21,7 +21,7 @@ class UserVerifyOtpTest extends TestCase
         $key = "OTP-email_" . $email;
         $expTime = 300;
         DB::insert("INSERT INTO users (name, email, password)
-        VALUES(?, ?, ?)", [
+                VALUES(?, ?, ?)", [
             "test",
             $email,
             "password"
@@ -80,7 +80,9 @@ class UserVerifyOtpTest extends TestCase
         // assertion
         $response->assertStatus(400)
             ->assertJson([
-                'message' => "otp doesn't valid"
+                'errors' => [
+                    "otp doesn't valid"
+                ]
             ]);
         self::assertNotNull(
             Redis::get($key)
@@ -116,7 +118,9 @@ class UserVerifyOtpTest extends TestCase
         // assertion
         $response->assertStatus(400)
             ->assertJson([
-                'message' => "otp doesn't valid"
+                'errors' => [
+                    "otp doesn't valid"
+                ]
             ]);
         self::assertNull(
             Redis::get($key)

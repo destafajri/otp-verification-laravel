@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\ApiException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -25,6 +26,17 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (ApiException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    "message" => "Error occurred while processing the request.",
+                    "errors" => [
+                        $e->getMessage()
+                    ],
+                ], $e->getCode());
+            }
         });
     }
 }
