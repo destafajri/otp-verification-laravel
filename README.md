@@ -19,10 +19,10 @@ To create  service layer and repository layer, i adding some command and stubs
 
 - To Create Service layer
 ```
-php artisan make:service {{ ServiceName }}
+php artisan make:service {{ServiceName}}
 ```
 
 - To Create Repository layer
 ```
-php artisan make:repository {{ RepositoryName }}
+php artisan make:repository {{RepositoryName}}
 ```
