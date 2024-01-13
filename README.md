@@ -9,3 +9,20 @@
 
 ## About The Project
 This Project is an example process for user verification using otp, the otp is store on redis and also send it to email using [mailtrap](https://mailtrap.io/home), the main database is used MySQL and redis to for queue job, i already prepare it on docker-compose.yml
+
+## Coding Flow
+```
+Controller -> Service -> Repository
+```
+
+To create  service layer and repository layer, i adding some command and stubs
+
+- To Create Service layer
+```
+php artisan make:service {{ ServiceName }}
+```
+
+- To Create Repository layer
+```
+php artisan make:repository {{ RepositoryName }}
+```
