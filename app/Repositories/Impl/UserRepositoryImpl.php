@@ -35,11 +35,11 @@ class UserRepositoryImpl implements UserRepository
             SELECT 1 FROM users
             WHERE email = ?
             AND deleted_at IS NOT NULL
-            AND deleted_at >= DATE_SUB(?, INTERVAL 2 DAY)
+            AND deleted_at >= ?
             LIMIT 1
             ", [
             $user->email,
-            Carbon::now()
+            Carbon::now()->subDay(2)
         ]);
 
         return count($user) == 1 ? true : false;
