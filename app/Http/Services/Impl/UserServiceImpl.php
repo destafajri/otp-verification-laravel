@@ -23,7 +23,7 @@ class UserServiceImpl implements UserService
 
     public function userRegister(UserRegisterRequest $request): User
     {
-        $user = new User([
+        $user = User::withTrashed()->where('email', $request->email)->first() ?: new User([
             "name" => $request->name,
             "email" => $request->email,
             "password" => $request->password
@@ -55,9 +55,7 @@ class UserServiceImpl implements UserService
 
     public function userVerifyOtpRegistration(UserRegisterVerifyRequest $request): void
     {
-        $user = new User([
-            "email" => $request->email
-        ]);
+        $user = User::where('email', $request->email)->first();
 
         // cek antara request dg redis
         $key = "OTP-email_" . $request->email;
