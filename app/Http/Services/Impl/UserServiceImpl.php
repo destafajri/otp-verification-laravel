@@ -74,6 +74,6 @@ class UserServiceImpl implements UserService
         $userDetail = $this->userRepository->getUserDetail($user);
 
         // login into system
-        Auth::login($userDetail);
+        Auth::login($userDetail, true);
     }
 }
